@@ -55,6 +55,20 @@ describe('user routes', () => {
       .send({ email: 'test@example.com', password: '123456' });
     expect(res.status).toEqual(200);
   });
+  it('updates user profile', async () => {
+    const [agent, user] = await registerAndLogin();
+    console.log(user);
+    const res = await agent.put(`/api/v1/users/${user.id}`).send({
+      firstName: 'Est',
+    });
+    expect(res.status).toEqual(200);
+    expect(res.body).toEqual({
+      id: expect.any(String),
+      firstName: 'Est',
+      lastName: 'User',
+      email: 'test@example.com',
+    });
+  });
 
   it('DELETE /sessions deletes the user session', async () => {
     const [agent] = await registerAndLogin();
