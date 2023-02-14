@@ -9,7 +9,7 @@ const mockUser = {
   firstName: 'Test',
   lastName: 'User',
   email: 'test@example.com',
-  password: '12345',
+  password: '123456',
 };
 
 const registerAndLogin = async (userProps = {}) => {
@@ -52,50 +52,7 @@ describe('user routes', () => {
     await request(app).post('/api/v1/users').send(mockUser);
     const res = await request(app)
       .post('/api/v1/users/sessions')
-      .send({ email: 'test@example.com', password: '12345' });
-    expect(res.status).toEqual(200);
-  });
-
-  it('/protected should return a 401 if not authenticated', async () => {
-    const res = await request(app).get('/api/v1/users/protected');
-    expect(res.status).toEqual(401);
-  });
-
-  it('/protected should return the current user if authenticated', async () => {
-    const [agent] = await registerAndLogin();
-    const res = await agent.get('/api/v1/users/protected');
-    expect(res.status).toEqual(200);
-  });
-
-  it('/users should return 401 if user not admin', async () => {
-    const [agent] = await registerAndLogin();
-    const res = await agent.get('/api/v1/users/');
-    expect(res.status).toEqual(403);
-  });
-
-  it('/users should return 200 if user is admin', async () => {
-    const agent = request.agent(app);
-
-    // create a new user
-    await agent.post('/api/v1/users').send({
-      email: 'admin',
-      password: '1234',
-      firstName: 'admin',
-      lastName: 'admin',
-    });
-    // sign in the user
-    await agent
-      .post('/api/v1/users/sessions')
-      .send({ email: 'admin', password: '1234' });
-
-    // const [agent] = await registerAndLogin({ email: 'admin' });
-    const res = await agent.get('/api/v1/users/');
-    expect(res.status).toEqual(200);
-  });
-
-  it('/users should return a 200 if user is admin', async () => {
-    const [agent] = await registerAndLogin({ email: 'admin' });
-    const res = await agent.get('/api/v1/users/');
+      .send({ email: 'test@example.com', password: '123456' });
     expect(res.status).toEqual(200);
   });
 

@@ -1,11 +1,20 @@
--- Use this file to define your SQL tables
--- The SQL in this file will be executed when you run `npm run setup-db`
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS trips;
+
 
 CREATE TABLE users (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  email VARCHAR,
+  email VARCHAR NOT NULL UNIQUE,
   password_hash VARCHAR NOT NULL,
-  first_name VARCHAR NOT NULL,
-  last_name VARCHAR NOT NULL
+  first_name VARCHAR,
+  last_name VARCHAR,
+  home_zip INT
+);
+
+CREATE TABLE trips (
+id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+creator_id BIGINT NOT NULL,
+location VARCHAR NOT NULL,
+url VARCHAR NOT NULL,
+foreign key (creator_id) references users(id)
 );
