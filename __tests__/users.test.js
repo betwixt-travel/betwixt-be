@@ -57,7 +57,6 @@ describe('user routes', () => {
   });
   it('updates user profile', async () => {
     const [agent, user] = await registerAndLogin();
-    console.log(user);
     const res = await agent.put(`/api/v1/users/${user.id}`).send({
       firstName: 'Est',
     });
